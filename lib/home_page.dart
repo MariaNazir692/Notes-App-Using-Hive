@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:notes_app/boxes/boxes.dart';
 import 'package:notes_app/model/add_note.dart';
 import 'package:notes_app/model/notes_model.dart';
+import 'package:notes_app/repository/hive_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                             const Spacer(),
                             IconButton(
                                 onPressed: () {
-                                  Delete(data[index]);
+                                  HiveServices().Delete(data[index]);
                                 },
                                 icon: const Icon(
                                   Icons.delete,
@@ -59,7 +60,9 @@ class _HomePageState extends State<HomePage> {
                                 )),
                             IconButton(
                                 onPressed: () {
-                                  _showEditDialog(data[index], data[index].title,
+                                  _showEditDialog(
+                                      data[index],
+                                      data[index].title,
                                       data[index].description);
                                 },
                                 icon: const Icon(Icons.edit))
@@ -87,11 +90,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void Delete(NotesModel notesModel) {
-    notesModel.delete();
-  }
-
-  void _showEditDialog(NotesModel notesModel, String title, String description) {
+  void _showEditDialog(
+      NotesModel notesModel, String title, String description) {
     titleController.text = title;
     descController.text = description;
     showDialog(
@@ -118,23 +118,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           )),
-          actions: <Widget>[
+          actions:[
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                notesModel.title=titleController.text.toString();
-                notesModel.description=descController.text.toString();
-                notesModel.save();
+                HiveServices().EditNote(
+                    notesModel: notesModel,
+                    title: titleController.text.toString(),
+                    desc: descController.text.toString());
                 descController.clear();
                 titleController.clear();
                 Navigator.pop(context);
-                // Closes the alert dialog
               },
             ),
             TextButton(
               child: const Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop(); // Closes the alert dialog
+                Navigator.of(context).pop();
               },
             ),
           ],

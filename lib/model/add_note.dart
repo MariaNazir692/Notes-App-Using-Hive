@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/boxes/boxes.dart';
 import 'package:notes_app/model/notes_model.dart';
+import 'package:notes_app/repository/hive_services.dart';
 
 class AddNotes extends StatelessWidget {
   const AddNotes({Key? key}) : super(key: key);
@@ -34,14 +35,10 @@ class AddNotes extends StatelessWidget {
             ),
             const SizedBox(height: 30,),
             ElevatedButton(onPressed: (){
-              final data=NotesModel(title: titleController.text, description: descController.text);
-              final box=Boxes.getData();
-              box.add(data);
-              data.save();
+            HiveServices().AddNote(titleController.text, descController.text);
               titleController.clear();
               descController.clear();
               Navigator.pop(context);
-
             },
             style: ElevatedButton.styleFrom(
               shape: const StadiumBorder(),
