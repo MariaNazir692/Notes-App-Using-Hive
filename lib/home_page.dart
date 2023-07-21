@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:notes_app/boxes/boxes.dart';
-import 'package:notes_app/model/add_note.dart';
+import 'package:notes_app/add_note.dart';
 import 'package:notes_app/model/notes_model.dart';
 import 'package:notes_app/repository/hive_services.dart';
 
